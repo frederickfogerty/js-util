@@ -1,53 +1,138 @@
 import * as loglevel from 'loglevel';
+import * as chalk from 'chalk';
+import { R } from './';
 
-export class Logger {
-	private log: Log;
-	constructor(logger: Log) {
-		this.log = logger;
-	}
-	/**
-	 * Output trace message to console.
-	 * This will also include a full stack trace
-	 */
-	public trace(...msg: any[]) {
-		this.log.trace(...msg);
-	}
+type COLOR = 'black'
+	| 'red'
+	| 'green'
+	| 'yellow'
+	| 'blue'
+	| 'magenta'
+	| 'cyan'
+	| 'white'
+	| 'gray';
 
-    /**
-     * Output debug message to console including appropriate icons
-     */
-	public debug(...msg: any[]) {
-		this.log.debug(...msg);
-	}
+export const COLORS = [
+	'black',
+	'red',
+	'green',
+	'yellow',
+	'blue',
+	'magenta',
+	'cyan',
+	'white',
+	'gray',
+];
 
-    /**
-     * Output info message to console including appropriate icons
-     */
-	public info(...msg: any[]) {
-		this.log.info(...msg);
-	}
+export type METHOD = 'trace'
+	| 'debug'
+	| 'info'
+	| 'warn'
+	| 'error';
 
-    /**
-     * Output warn message to console including appropriate icons
-     */
-	public warn(...msg: any[]) {
-		this.log.warn(...msg);
-	}
+const METHODS = [
+	'trace',
+	'debug',
+	'info',
+	'warn',
+	'error',
+];
 
-    /**
-     * Output error message to console including appropriate icons
-     */
-	public error(...msg: any[]) {
-		this.log.error(...msg);
-	}
 
-    /**
-     * This disables all logging below the given level, so that after a log.setLevel("warn") call log.warn("something")
-     * or log.error("something") will output messages, but log.info("something") will not.
-     */
-	public setLevel(level: LogLevel) {
-		this.log.setLevel(level);
-	}
+const colored = (color: COLOR) => (...args: any[]) => R.map((chalk as any)[color], args);
+
+const addColorToMethod = (method: { [k: string]: (...args: any[]) => void }) =>
+	(color: string) => method[color] = R.pipe(colored(color as COLOR), (args: string[]) => (method as any)(...args));
+
+
+function addColorOverloads() {
+	// Modify loglevel instance
+	R.map(METHOD => {
+		const method: { [k: string]: (...args: any[]) => void } = (loglevel as any)[METHOD];
+		// addToLogger(METHOD, loglevel[METHOD]);
+		R.map(addColorToMethod(method), COLORS);
+	}, METHODS);
+
 }
 
-export const log = new Logger(loglevel);
+
+
+const originalFactory = loglevel.methodFactory;
+(loglevel as any).methodFactory = (methodName: METHOD, logLevel: LogLevel, loggerName: string) => {
+	const method = (...args: any[]) => {
+		let logFunc: any;
+		if (typeof console === 'undefined') {
+			logFunc = false; // We can't build a real method without a console to log to
+		} else if ((console as any)[methodName] !== undefined) {
+			logFunc = (console as any)[methodName].bind(console);
+		} else if (console.log !== undefined) {
+			logFunc = console.log.bind(console);
+		} else {
+			logFunc = () => { };
+		}
+
+		logFunc(...args);
+	}
+
+	R.map(addColorToMethod(method as any), COLORS);
+
+	return method;
+};
+loglevel.setLevel(loglevel.getLevel());
+
+
+
+
+// Add colors to top-level loglevel instance
+R.map(
+	color => (loglevel as any)[color] = R.pipe(colored(color as COLOR), (args: any[]) => loglevel.debug(...args)),
+	COLORS
+);
+
+
+
+
+
+export type ILoggable = any;
+
+export interface ILogger {
+	(...items: ILoggable[]): void;
+}
+
+export interface ILogColors {
+	black: ILogger;
+	red: ILogger;
+	green: ILogger;
+	yellow: ILogger;
+	blue: ILogger;
+	magenta: ILogger;
+	cyan: ILogger;
+	white: ILogger;
+	gray: ILogger;
+}
+
+export interface ILogMethod extends ILogColors, ILogger { }
+
+export interface ILog extends ILogColors, Log {
+	trace: ILogMethod;
+	debug: ILogMethod;
+	info: ILogMethod;
+	warn: ILogMethod;
+	error: ILogMethod;
+	levels: {
+		TRACE: number;
+		DEBUG: number;
+		INFO: number;
+		WARN: number;
+		ERROR: number;
+		SILENT: number;
+	};
+}
+
+export const log: ILog = loglevel as any as ILog;
+
+export const otherLog = console.log.bind(console)
+
+
+
+
