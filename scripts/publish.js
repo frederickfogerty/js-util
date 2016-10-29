@@ -38,7 +38,7 @@ const tasks = [
     },
     {
         title: 'Change to dist folder',
-        task: () => exec('cd', ['dist'])
+        task: () => exec('cd dist')
     },
     {
         title: 'npm publish',
