@@ -37,7 +37,7 @@ const tasks = [
 	},
 	{
 		title: 'npm publish',
-		task: exec('npm', ['publish'])
+		task: () => exec('npm', ['publish'])
 	}
 ]
 
