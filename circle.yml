@@ -10,6 +10,7 @@ dependencies:
 
   override:
     - which node
+    - npm i -g yarn
     - yarn install
 
 test:
