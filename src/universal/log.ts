@@ -1,6 +1,5 @@
 import * as loglevel from 'loglevel';
 
-
 export class Logger {
 	private log: Log;
 	constructor(logger: Log) {
@@ -50,6 +49,5 @@ export class Logger {
 		this.log.setLevel(level);
 	}
 }
-
 
 export const log = new Logger(loglevel);
