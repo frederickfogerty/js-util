@@ -67,4 +67,4 @@ test('setLevel', () => {
 	log.debug('should not be logged');
 
 	expect(items.length).toBe(0);
-})
+});

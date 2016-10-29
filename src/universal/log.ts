@@ -30,34 +30,12 @@ export type METHOD = 'trace'
 	| 'warn'
 	| 'error';
 
-const METHODS = [
-	'trace',
-	'debug',
-	'info',
-	'warn',
-	'error',
-];
-
-
 const colored = (color: COLOR) => (...args: any[]) => R.map((chalk as any)[color], args);
 
 const addColorToMethod = (method: { [k: string]: (...args: any[]) => void }) =>
 	(color: string) => method[color] = R.pipe(colored(color as COLOR), (args: string[]) => (method as any)(...args));
 
 
-function addColorOverloads() {
-	// Modify loglevel instance
-	R.map(METHOD => {
-		const method: { [k: string]: (...args: any[]) => void } = (loglevel as any)[METHOD];
-		// addToLogger(METHOD, loglevel[METHOD]);
-		R.map(addColorToMethod(method), COLORS);
-	}, METHODS);
-
-}
-
-
-
-const originalFactory = loglevel.methodFactory;
 (loglevel as any).methodFactory = (methodName: METHOD, logLevel: LogLevel, loggerName: string) => {
 	const method = (...args: any[]) => {
 		let logFunc: any;
@@ -68,11 +46,11 @@ const originalFactory = loglevel.methodFactory;
 		} else if (console.log !== undefined) {
 			logFunc = console.log.bind(console);
 		} else {
-			logFunc = () => { };
+			logFunc = () => ({});
 		}
 
 		logFunc(...args);
-	}
+	};
 
 	R.map(addColorToMethod(method as any), COLORS);
 
@@ -131,7 +109,7 @@ export interface ILog extends ILogColors, Log {
 
 export const log: ILog = loglevel as any as ILog;
 
-export const otherLog = console.log.bind(console)
+export const otherLog = console.log.bind(console);
 
 
 
