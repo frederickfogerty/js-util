@@ -38,7 +38,7 @@ const tasks = [
     },
     {
         title: 'Change to dist folder',
-        task: () => exec.shell('cd dist')
+        task: () => execa.shell('cd dist')
     },
     {
         title: 'npm publish',
