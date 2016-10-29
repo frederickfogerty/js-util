@@ -8,7 +8,9 @@
     "build:watch": "tsc -w",
     "lint": "tslint 'src/**/*.ts{,x}' --type-check --format verbose",
     "prepublish": "npm run build",
-    "np": "ynp",
+    "release:patch": "npm version patch && bash ./scripts/release.sh",
+    "release:minor": "npm version minor && bash ./scripts/release.sh",
+    "release:major": "npm version major && bash ./scripts/release.sh",
     "test": "npm run test:unit && npm run lint",
     "test:unit": "jest"
   },
