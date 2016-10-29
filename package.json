@@ -1,6 +1,6 @@
 {
   "name": "@fredfogerty/js-util",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A universal set of typescript helpers for use on any platform.",
   "main": "index.js",
   "scripts": {
