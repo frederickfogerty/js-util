@@ -2,6 +2,8 @@
 
 > A universal set of typescript helpers for use on any platform.
 
+[![CircleCI](https://img.shields.io/circleci/project/github/frederickfogerty/js-util.svg)](https://circleci.com/gh/frederickfogerty/js-util) [![npm (scoped)](https://img.shields.io/npm/v/@fredfogerty/js-util.svg)](https://www.npmjs.com/~fredfogerty/js-util)
+
 background details relevant to understanding what this module does
 
 ## Usage
