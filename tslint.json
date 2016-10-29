@@ -1,3 +1,13 @@
 {
-  "extends": ["tslint-config-xo", "tslint:latest"]
+	"extends": [
+		"tslint-config-xo",
+		"tslint:latest"
+	],
+	"rules": {
+		"trailing-comma": true,
+		"no-consecutive-blank-lines": false,
+		"ordered-imports": false,
+		"object-literal-sort-keys": false,
+		"no-var-requires": false
+	}
 }
