@@ -33,7 +33,7 @@ const tasks = [
 		title: "Copy files",
 		task: () => Promise.all(
 			["package.json", "LICENSE", ".npmignore", "README.md", "CHANGELOG.md", "changelog.md"]
-				.map(copyToDist),
+				.map(copyToDist)
 		),
 	},
 	{
