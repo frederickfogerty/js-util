@@ -63,8 +63,8 @@ loglevel.setLevel(loglevel.getLevel());
 
 // Add colors to top-level loglevel instance
 R.map(
-	color => (loglevel as any)[color] = R.pipe(colored(color as COLOR), (args: any[]) => loglevel.debug(...args)),
-	COLORS
+	(color) => (loglevel as any)[color] = R.pipe(colored(color as COLOR), (args: any[]) => loglevel.debug(...args)),
+	COLORS,
 );
 
 
@@ -73,9 +73,7 @@ R.map(
 
 export type ILoggable = any;
 
-export interface ILogger {
-	(...items: ILoggable[]): void;
-}
+export type ILogger = (...items: ILoggable[]) => void;
 
 export interface ILogColors {
 	black: ILogger;
@@ -89,7 +87,7 @@ export interface ILogColors {
 	gray: ILogger;
 }
 
-export interface ILogMethod extends ILogColors, ILogger { }
+export type ILogMethod = ILogColors & ILogger;
 
 export interface ILog extends ILogColors, Log {
 	trace: ILogMethod;
