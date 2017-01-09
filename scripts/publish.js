@@ -15,7 +15,7 @@ const exec = (cmd, args) => {
 
 	return Observable.merge(
 		streamToObservable(cp.stdout.pipe(split()), { await: cp }),
-		streamToObservable(cp.stderr.pipe(split()), { await: cp }),
+		streamToObservable(cp.stderr.pipe(split()), { await: cp })
 	).filter(Boolean);
 };
 const DIST_DIR = "dist";
