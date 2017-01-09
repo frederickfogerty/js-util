@@ -1,13 +1,12 @@
 {
 	"extends": [
-		"tslint-config-xo",
-		"tslint:latest"
+		"@fredfogerty/tslint-config/tslint.json"
 	],
 	"rules": {
-		"trailing-comma": true,
-		"no-consecutive-blank-lines": false,
-		"ordered-imports": false,
-		"object-literal-sort-keys": false,
-		"no-var-requires": false
+		// "trailing-comma": true,
+		// "no-consecutive-blank-lines": false,
+		// "ordered-imports": false,
+		// "object-literal-sort-keys": false,
+		// "no-var-requires": false
 	}
 }
