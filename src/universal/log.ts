@@ -2,6 +2,8 @@ import * as loglevel from 'loglevel';
 import * as chalk from 'chalk';
 import { R } from './';
 
+loglevel.setDefaultLevel(LogLevel.INFO);
+
 type COLOR = 'black'
 	| 'red'
 	| 'green'
@@ -56,7 +58,6 @@ const addColorToMethod = (method: { [k: string]: (...args: any[]) => void }) =>
 
 	return method;
 };
-loglevel.setLevel(loglevel.getLevel());
 
 
 
