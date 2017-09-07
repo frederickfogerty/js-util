@@ -3,8 +3,8 @@ import * as chalk from 'chalk';
 
 let oldConsole: typeof console;
 let items: {
-	method: string,
-	arguments: any[],
+	method: string;
+	arguments: any[];
 }[] = [];
 beforeAll(() => {
 	log.setLevel(log.levels.TRACE);
@@ -17,16 +17,14 @@ afterAll(() => {
 beforeEach(() => {
 	items = [];
 	console = {} as any;
-	['trace', 'debug', 'warn', 'error', 'info', 'log'].map(
-		(method) => {
-			(console as any)[method] = (...args: any[]) => {
-				items.push({
-					method,
-					arguments: args,
-				});
-			};
-		},
-	);
+	['trace', 'debug', 'warn', 'error', 'info', 'log'].map(method => {
+		(console as any)[method] = (...args: any[]) => {
+			items.push({
+				method,
+				arguments: args,
+			});
+		};
+	});
 });
 
 test('colors', () => {
@@ -39,12 +37,18 @@ test('colors', () => {
 });
 
 test('different levels', () => {
-	['trace', 'debug', 'warn', 'error', 'info'].map((method) => {
+	['trace', 'debug', 'warn', 'error', 'info'].map(method => {
 		(log as any)[method](method);
 	});
 
 	expect(items.length).toBe(5);
-	expect(items.map((item) => item.method)).toEqual(['trace', 'debug', 'warn', 'error', 'info']);
+	expect(items.map(item => item.method)).toEqual([
+		'trace',
+		'debug',
+		'warn',
+		'error',
+		'info',
+	]);
 });
 
 test('falls back to console.log', () => {
@@ -59,7 +63,6 @@ test('root colors', () => {
 
 	expect(items[0].arguments[0]).toBe(chalk.red('something'));
 });
-
 
 test('setLevel', () => {
 	log.setLevel(log.levels.WARN);

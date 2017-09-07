@@ -11,7 +11,6 @@ export function invariant<T>(message: string, condition?: any): any {
 		return (conditionCurry: T) => invariant<T>(message, conditionCurry);
 	}
 
-
 	if (!condition) {
 		const error = new Error(message);
 		error.name = 'Invariant Violation';
@@ -31,18 +30,21 @@ export function ensure<T>(message: string): (ensurable: T, condition: any) => T;
 export function ensure<T>(message: string, ensurable: T): (condition: any) => T;
 export function ensure<T>(message: string, ensurable: T, condition: any): T;
 
-export function ensure<T>(message: string, ensurable?: T, condition?: any): any {
-
+export function ensure<T>(
+	message: string,
+	ensurable?: T,
+	condition?: any,
+): any {
 	// Only the message was passed
 	if (arguments.length === 1) {
-		return (ensurableCurry: T, conditionCurry: any): T => ensure(message, ensurableCurry, conditionCurry);
+		return (ensurableCurry: T, conditionCurry: any): T =>
+			ensure(message, ensurableCurry, conditionCurry);
 	}
 
 	// Only the message and the ensurable were passed
 	if (arguments.length === 2) {
 		return (conditionCurry: any) => ensure(message, ensurable, conditionCurry);
 	}
-
 
 	// All three parameters were passed
 	invariant(message, condition);

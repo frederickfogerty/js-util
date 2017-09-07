@@ -1,6 +1,6 @@
 // FP helper
 import * as R from 'ramda';
-export { R }
+export { R };
 
 export { log } from './log';
-export { invariant, ensure } from './invariant'
+export { invariant, ensure } from './invariant';
