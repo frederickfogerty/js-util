@@ -2,9 +2,10 @@ import * as loglevel from 'loglevel';
 import * as chalk from 'chalk';
 import { R } from './';
 
-loglevel.setDefaultLevel(LogLevel.INFO);
+loglevel.setDefaultLevel(2 as LogLevel.INFO);
 
-type COLOR = 'black'
+type COLOR =
+	| 'black'
 	| 'red'
 	| 'green'
 	| 'yellow'
@@ -26,19 +27,23 @@ export const COLORS = [
 	'gray',
 ];
 
-export type METHOD = 'trace'
-	| 'debug'
-	| 'info'
-	| 'warn'
-	| 'error';
+export type METHOD = 'trace' | 'debug' | 'info' | 'warn' | 'error';
 
-const colored = (color: COLOR) => (...args: any[]) => R.map((chalk as any)[color], args);
+const colored = (color: COLOR) => (...args: any[]) =>
+	R.map((chalk as any)[color], args);
 
-const addColorToMethod = (method: { [k: string]: (...args: any[]) => void }) =>
-	(color: string) => method[color] = R.pipe(colored(color as COLOR), (args: string[]) => (method as any)(...args));
+const addColorToMethod = (method: {
+	[k: string]: (...args: any[]) => void;
+}) => (color: string) =>
+	(method[color] = R.pipe(colored(color as COLOR), (args: string[]) =>
+		(method as any)(...args),
+	));
 
-
-(loglevel as any).methodFactory = (methodName: METHOD, logLevel: LogLevel, loggerName: string) => {
+(loglevel as any).methodFactory = (
+	methodName: METHOD,
+	logLevel: LogLevel,
+	loggerName: string,
+) => {
 	const method = (...args: any[]) => {
 		let logFunc: any;
 		if (typeof console === 'undefined') {
@@ -59,18 +64,14 @@ const addColorToMethod = (method: { [k: string]: (...args: any[]) => void }) =>
 	return method;
 };
 
-
-
-
 // Add colors to top-level loglevel instance
 R.map(
-	(color) => (loglevel as any)[color] = R.pipe(colored(color as COLOR), (args: any[]) => loglevel.debug(...args)),
+	color =>
+		((loglevel as any)[color] = R.pipe(colored(color as COLOR), (args: any[]) =>
+			loglevel.debug(...args),
+		)),
 	COLORS,
 );
-
-
-
-
 
 export type ILoggable = any;
 
@@ -106,10 +107,6 @@ export interface ILog extends ILogColors, Log {
 	};
 }
 
-export const log: ILog = loglevel as any as ILog;
+export const log: ILog = (loglevel as any) as ILog;
 
 export const otherLog = console.log.bind(console);
-
-
-
-
