@@ -24,8 +24,8 @@ jobs:
       - run:
           name: deploy
           command: |
-            echo "${CIRCLE_TAG}"
             if [[ "${CIRCLE_TAG}" =~ ^v[0-9]+(\.[0-9]+)*(-[0-9]+)?$ ]]; then
+              echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
               node ./scripts/publish.js
             fi
 
