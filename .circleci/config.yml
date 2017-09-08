@@ -24,6 +24,7 @@ jobs:
       - run:
           name: deploy
           command: |
+            echo "${CIRCLE_TAG}"
             if [[ "${CIRCLE_TAG}" =~ v[0-9]+(\.[0-9]+)* ]]; then
               node ./scripts/publish.js
             fi
