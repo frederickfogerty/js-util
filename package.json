@@ -6,9 +6,10 @@
 	"scripts": {
 		"build": "rm -rf dist && tsc",
 		"build:watch": "tsc -w",
-		"release:patch": "npm version patch && bash ./scripts/release.sh",
-		"release:minor": "npm version minor && bash ./scripts/release.sh",
-		"release:major": "npm version major && bash ./scripts/release.sh",
+		"check:local": "npm install && npm run prepublishOnly",
+		"release:patch": "npm run check:local && npm version patch && bash ./scripts/release.sh",
+		"release:minor": "npm run check:local && npm version minor && bash ./scripts/release.sh",
+		"release:major": "npm run check:local && npm version major && bash ./scripts/release.sh",
 		"test": "npm run test:unit",
 		"test:unit": "jest",
 		"pretty": "./node_modules/.bin/prettier --parser typescript --single-quote --trailing-comma all --use-tabs --write \"./src/**/*.{ts,tsx}\"",
