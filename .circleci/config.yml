@@ -6,7 +6,6 @@ jobs:
       - image: circleci/node:latest
     steps:
       - checkout
-      
       # - run:
       #     name: update-npm
       #     command: 'sudo npm install -g npm@latest'
@@ -29,3 +28,12 @@ jobs:
             if [[ "${CIRCLE_TAG}" =~ v[0-9]+(\.[0-9]+)* ]]; then
               node ./scripts/publish.js
             fi
+
+workflows:
+  version: 2
+  build-n-publish:
+    jobs:
+      - build:
+          filters:
+            tags:
+              only: /v[0-9]+(\.[0-9]+)*/
