@@ -12,7 +12,7 @@
 		"release:major": "npm run check:local && npm version major && bash ./scripts/release.sh",
 		"test": "npm run test:unit",
 		"test:unit": "jest",
-		"pretty": "./node_modules/.bin/prettier --parser typescript --single-quote --trailing-comma all --use-tabs --write \"./src/**/*.{ts,tsx}\"",
+		"pretty": "./node_modules/.bin/prettier --parser typescript --single-quote --trailing-comma all --use-tabs --write \"./src/**/*.{ts,tsx}\""
 	},
 	"repository": {
 		"type": "git",
